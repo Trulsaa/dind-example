@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+docker compose up --detach docker
+docker compose run docker-ml script-that-needs-docker
+docker compose down

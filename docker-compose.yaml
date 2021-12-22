@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  docker:
+    image: docker:20.10.9-dind-alpine3.14
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - dind-docker-certs-ca:/certs/ca
+      - dind-docker-certs-client:/certs/client
+
+  docker-ml:
+    build:
+      context: .
+      target: docker-bash-git-jq-curl
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - dind-docker-certs-ca:/certs/ca
+      - dind-docker-certs-client:/certs/client
+      - .:/src
+
+volumes:
+  dind-docker-certs-ca:
+    name: dind-docker-certs-ca
+  dind-docker-certs-client:
+    name: dind-docker-certs-client
